@@ -1,0 +1,6 @@
+# Khong dua len repo du lieu
+*.keras
+*.zip
+.token
+.ghtoken
+__pycache__/
