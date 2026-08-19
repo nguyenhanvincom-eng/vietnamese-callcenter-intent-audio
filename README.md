@@ -1,18 +1,18 @@
 # Vietnamese Callcenter Intent Audio
 
 Bộ dữ liệu audio tiếng Việt cho bài toán phân loại **ý định cuộc gọi tổng đài**, gồm 4 nhãn:
-`Hỏi thông tin`, `Khiếu nại`, `Mua hàng`, `Khác`, `Đặt lịch hẹn`, `Hỗ trợ kỹ thuật`.
+`Hỏi thông tin`, `Khiếu nại`, `Mua hàng`, `Khác`.
 
 ## Thông số
 
 | | |
 |---|---|
-| Số file | **5.704** |
-| Số nhãn | **6** — 4 nhãn gốc mỗi nhãn **1.164** file, 2 nhãn mới đúng **524** file |
+| Số file | **9.410** |
+| Số nhãn | **4** dùng chính thức, mỗi nhãn ~**2.000** file (+2 thư mục để dành, xem dưới) |
 | Số giọng đọc | **18** (16 Viettel AI + 2 Microsoft Edge) |
 | Định dạng | WAV, mono, **8000 Hz**, PCM 16-bit |
 | Độ dài | 0,38 – 1,73 giây (trung bình 0,70 giây) |
-| Dung lượng | ~73 MB |
+| Dung lượng | ~120 MB |
 
 ## Cấu trúc
 
@@ -69,6 +69,28 @@ Sau khi thêm: **không còn từ đệm nào kẹt ở một nhãn duy nhất**
 
 Từ vựng hai nhãn này được chọn để **không trùng mục nào** với ngữ liệu 4 nhãn cũ.
 Cả 6 nhãn hiện đều có **60 từ khoá**.
+
+## Đợt V2 — chuyển hẳn sang KÊNH BÁN HÀNG BÁN LẺ (19/08/2026)
+
+Bộ gốc xây theo kiểu tổng đài đa ngành: có ngân hàng (`số dư`, `lãi suất`, `mở thẻ`),
+viễn thông (`gói cước`, `sim số`, `cáp quang`), du lịch (`đặt vé máy bay`, `đặt phòng`),
+nhà hàng (`đặt bàn`), gym (`gói tập một năm`). Với một shop bán lẻ thì lạc đề.
+
+Đợt V2 làm hai việc:
+
+- **Thêm 346 mẫu** phủ đúng nghiệp vụ bán lẻ: sản phẩm (`còn size nào`, `hàng chính hãng`,
+  `xuất xứ ở đâu`), đơn hàng (`mã vận đơn`, `đơn tới đâu`), vận chuyển (`phí ship`,
+  `có ship tỉnh`, `ship ra bến xe`), thanh toán (`quét mã`, `hoá đơn đỏ`, `ship cod`,
+  `chuyển cọc`), khiếu nại bán lẻ (`giao sai hàng`, `gửi nhầm màu`, `không giống hình`,
+  `shipper thái độ`, `bóc phốt`).
+- **Đánh dấu 62 mẫu lạc ngành để KHÔNG nạp** — file audio vẫn giữ nguyên trong repo,
+  danh sách chỉ số nằm ở `LOAI_TRU_IDX` trong notebook. Bỏ tên khỏi đó là dùng lại được.
+
+Sau đợt này mỗi nhãn có **185 mẫu ngữ liệu** (95 từ khoá + 90 cụm từ), cân đều tuyệt đối.
+Số giọng: từ khoá **16 giọng Viettel**, cụm từ **4 giọng Viettel + 2 giọng edge-tts**.
+
+Hai thư mục `Đặt lịch hẹn` và `Hỗ trợ kỹ thuật` vẫn còn trong repo nhưng **không thuộc
+bài toán hiện tại** — giữ lại phòng khi cần mở rộng nhãn về sau.
 
 ## Giọng đọc
 
