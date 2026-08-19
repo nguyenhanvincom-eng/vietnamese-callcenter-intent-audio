@@ -7,12 +7,12 @@ Bộ dữ liệu audio tiếng Việt cho bài toán phân loại **ý định c
 
 | | |
 |---|---|
-| Số file | **3.520** |
-| Số nhãn | 4 (mỗi nhãn đúng **880** file — cân bằng tuyệt đối) |
+| Số file | **4.416** |
+| Số nhãn | 4 (mỗi nhãn đúng **1.104** file — cân bằng tuyệt đối) |
 | Số giọng đọc | **18** (16 Viettel AI + 2 Microsoft Edge) |
 | Định dạng | WAV, mono, **8000 Hz**, PCM 16-bit |
 | Độ dài | 0,38 – 1,73 giây (trung bình 0,70 giây) |
-| Dung lượng | ~46 MB |
+| Dung lượng | ~58 MB |
 
 ## Cấu trúc
 
@@ -30,9 +30,31 @@ vn_intent_audio/
 Tên file: `<tầng><số thứ tự>__<mã giọng>.wav`
 
 - **`kw`** — *từ khoá đơn* (`lỗi`, `hư`, `trả hàng`, `mua`, `bao nhiêu`…). 50 từ mỗi nhãn, mỗi từ đọc bởi cả 16 giọng Viettel → 800 file/nhãn.
-- **`ph`** — *cụm từ 2–6 từ* (`Đơn hàng tới đâu rồi`, `Tôi muốn đặt mua`…). 40 cụm mỗi nhãn, mỗi cụm đọc bởi 2 giọng edge-tts → 80 file/nhãn.
+- **`ph`** — *cụm từ / câu ngắn*, **54 cụm mỗi nhãn**, chia hai đợt:
+  - `ph000`–`ph039` — cụm 2–6 từ (`Đơn hàng tới đâu rồi`, `Tôi muốn đặt mua`…), 2 giọng edge-tts → 80 file/nhãn.
+  - `ph040`–`ph053` — **bộ cân bằng từ đệm** (thêm 18/08/2026), 16 giọng Viettel → 224 file/nhãn. Xem mục dưới.
 
 Số thứ tự ứng với **vị trí trong danh sách ngữ liệu** ở notebook. Muốn biết file nào là chữ gì, xem file `ngu_lieu_va_audio.xlsx`.
+
+## Bộ cân bằng từ đệm (`ph040`–`ph053`)
+
+Bộ ban đầu có một lỗi thiết kế: **từ đệm phân bố lệch giữa các nhãn**. Đếm trên tập train:
+`cái` / `này` / `thêm` / `luôn` / `liền` chỉ xuất hiện ở nhãn *Mua hàng*; `dạ` / `xin` / `thôi` /
+`rõ` / `lại` / `bạn` / `em` / `anh` / `chị` chỉ ở *Khác*; `quá` chỉ ở *Khiếu nại*. Đây đều là từ
+không mang ý định, nhưng mô hình nghe thấy là đoán được nhãn — tức **học tắt theo từ đệm**
+thay vì học lõi ý định. Hệ quả đo được: mô hình dồn dự đoán về *Mua hàng* (đoán 298 lần trên
+190 file thật, precision chỉ 0,53).
+
+14 cụm mới mỗi nhãn dùng **cùng một bộ từ đệm cho cả 4 nhãn**, chỉ khác lõi ý định:
+
+| Nhãn | Ví dụ |
+|---|---|
+| Hỏi thông tin | *Dạ cho em hỏi **cái này*** · *Xin hỏi thông tin sản phẩm* |
+| Khiếu nại | ***Dạ cái này** bị lỗi* · *Mua hai **cái** hư một **cái*** |
+| Mua hàng | ***Dạ** đặt giùm em **cái này*** · *Lấy một **cái thôi bạn*** |
+| Khác | *Tôi gọi nhầm **cái này*** · ***Dạ** không phải hàng của em* |
+
+Sau khi thêm: **không còn từ đệm nào kẹt ở một nhãn duy nhất**.
 
 ## Giọng đọc
 
