@@ -1,18 +1,18 @@
 # Vietnamese Callcenter Intent Audio
 
 Bộ dữ liệu audio tiếng Việt cho bài toán phân loại **ý định cuộc gọi tổng đài**, gồm 4 nhãn:
-`Hỏi thông tin`, `Khiếu nại`, `Mua hàng`, `Khác`.
+`Hỏi thông tin`, `Khiếu nại`, `Mua hàng`, `Khác`, `Đặt lịch hẹn`, `Hỗ trợ kỹ thuật`.
 
 ## Thông số
 
 | | |
 |---|---|
-| Số file | **4.416** |
-| Số nhãn | 4 (mỗi nhãn đúng **1.104** file — cân bằng tuyệt đối) |
+| Số file | **5.578** |
+| Số nhãn | **6** — 4 nhãn gốc mỗi nhãn **1.164** file, 2 nhãn mới ~**445** file |
 | Số giọng đọc | **18** (16 Viettel AI + 2 Microsoft Edge) |
 | Định dạng | WAV, mono, **8000 Hz**, PCM 16-bit |
 | Độ dài | 0,38 – 1,73 giây (trung bình 0,70 giây) |
-| Dung lượng | ~58 MB |
+| Dung lượng | ~73 MB |
 
 ## Cấu trúc
 
@@ -55,6 +55,20 @@ thay vì học lõi ý định. Hệ quả đo được: mô hình dồn dự đ
 | Khác | *Tôi gọi nhầm **cái này*** · ***Dạ** không phải hàng của em* |
 
 Sau khi thêm: **không còn từ đệm nào kẹt ở một nhãn duy nhất**.
+
+## Hai nhãn mở rộng (thêm 19/08/2026)
+
+`Đặt lịch hẹn` và `Hỗ trợ kỹ thuật` được thêm sau, với hai khác biệt so với 4 nhãn gốc:
+
+- Chỉ **6 giọng Viettel** đọc thay vì 16: `hn-thanhphuong`, `hn-tienquan`, `hue-maingoc`,
+  `hue-baoquoc`, `hcm-phuongly`, `hcm-minhquan` — đúng 1 nam + 1 nữ mỗi miền. Bốc ngẫu
+  nhiên nhưng ép điều kiện phải có ít nhất 1 giọng nằm trong tập test và 1 giọng trong
+  tập val, nếu không hai nhãn này sẽ không có mẫu nào để chấm điểm.
+- Vì vậy chúng **nhỏ hơn 4 nhãn gốc khoảng 2,6 lần**. Khi huấn luyện nên dùng
+  `class_weight='balanced'` để mô hình không bỏ rơi nhãn ít mẫu.
+
+Từ vựng hai nhãn này được chọn để **không trùng mục nào** với ngữ liệu 4 nhãn cũ.
+Cả 6 nhãn hiện đều có **60 từ khoá**.
 
 ## Giọng đọc
 
