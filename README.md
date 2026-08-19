@@ -7,8 +7,8 @@ Bộ dữ liệu audio tiếng Việt cho bài toán phân loại **ý định c
 
 | | |
 |---|---|
-| Số file | **5.578** |
-| Số nhãn | **6** — 4 nhãn gốc mỗi nhãn **1.164** file, 2 nhãn mới ~**445** file |
+| Số file | **5.704** |
+| Số nhãn | **6** — 4 nhãn gốc mỗi nhãn **1.164** file, 2 nhãn mới đúng **524** file |
 | Số giọng đọc | **18** (16 Viettel AI + 2 Microsoft Edge) |
 | Định dạng | WAV, mono, **8000 Hz**, PCM 16-bit |
 | Độ dài | 0,38 – 1,73 giây (trung bình 0,70 giây) |
