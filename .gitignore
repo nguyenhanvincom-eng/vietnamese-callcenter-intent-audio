@@ -4,3 +4,6 @@
 .token
 .ghtoken
 __pycache__/
+
+# Ngoai le: mo hinh da huan luyen, de notebook demo tai ve dung ngay
+!mo_hinh/vn_intent_bilstm.keras

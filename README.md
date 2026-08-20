@@ -130,6 +130,30 @@ url = "https://github.com/<user>/<repo>/archive/refs/heads/main.zip"
 
 Notebook `capstone_vietnamese_intent.ipynb` có sẵn hàm `download_dataset_from_github()` ở Bước 3A làm việc này — chạy nó là có dữ liệu, **không cần token Viettel, không tốn quota**.
 
+## Mô hình đã huấn luyện (`mo_hinh/`)
+
+Ba file để **dùng ngay mà không phải huấn luyện lại**:
+
+| File | Là gì |
+|---|---|
+| `vn_intent_bilstm.keras` | Mô hình BiLSTM đã train (Masking → BiLSTM 64 → Dropout → Dense 32 → softmax) |
+| `vn_intent_stats.json` | Thông số tiền xử lý: 4 nhãn, 8000 Hz, 13 hệ số MFCC, 44 khung, mean/std chuẩn hoá |
+| `ngu_lieu.json` | 802 câu ngữ liệu, để dựng lại bộ xếp nhãn theo chữ trong ~1 giây |
+
+**Ba file phải đi cùng nhau.** `mean_val`/`std_val` trong file thông số là của đúng lần train
+đã sinh ra file `.keras`; lẫn bản cũ với bản mới thì kết quả sai âm thầm, không có lỗi nào báo.
+
+Độ chính xác đo trên chính bộ này (chia theo giọng — 4 giọng bị giấu hoàn toàn khỏi lúc học):
+
+| Cách chấm | Giọng đã học | Giọng lạ | Câu lạ |
+|---|---|---|---|
+| BiLSTM nghe thẳng âm thanh | ~93% | **~63%** | ~39% |
+| Đọc ra chữ rồi xếp nhãn theo chữ | | | **~83%** |
+
+Con số đáng tin cho đời thật là cột **câu lạ**, vì khách gọi thật luôn nói câu chưa từng có
+trong ngữ liệu (đoán mò = 25%). BiLSTM học dáng âm của cả đoạn nên gặp câu lạ là đuối;
+thêm giọng không cứu được, chỉ thêm CÂU mới cứu được.
+
 ## Giấy phép
 
 Dùng cho mục đích **học tập**. Giọng đọc thuộc bản quyền Viettel AI và Microsoft — kiểm tra điều khoản dịch vụ của họ trước khi dùng cho mục đích khác.

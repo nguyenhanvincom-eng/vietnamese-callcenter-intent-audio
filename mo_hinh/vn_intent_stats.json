@@ -1,0 +1,16 @@
+{
+  "target_intents": [
+    "Hỏi thông tin",
+    "Khiếu nại",
+    "Mua hàng",
+    "Khác"
+  ],
+  "target_sr": 8000,
+  "max_time_steps": 44,
+  "n_mfcc": 13,
+  "mean_val": -11.323469161987305,
+  "std_val": 52.34787368774414,
+  "cach_chia": "giong",
+  "so_file_train": 5200,
+  "so_giong_train": 12
+}
